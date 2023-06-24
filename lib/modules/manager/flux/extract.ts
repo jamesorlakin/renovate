@@ -18,7 +18,7 @@ import type {
   PackageFile,
   PackageFileContent,
 } from '../types';
-import { isSystemManifest } from './common';
+import { systemManifestHeaderRegex } from './common';
 import type {
   FluxManagerData,
   FluxManifest,
@@ -32,13 +32,8 @@ function readManifest(
   content: string,
   packageFile: string
 ): FluxManifest | null {
-  if (isSystemManifest(packageFile)) {
-    const versionMatch = regEx(
-      /#\s*Flux\s+Version:\s*(\S+)(?:\s*#\s*Components:\s*([A-Za-z,-]+))?/
-    ).exec(content);
-    if (!versionMatch) {
-      return null;
-    }
+  const versionMatch = regEx(systemManifestHeaderRegex).exec(content);
+  if (versionMatch) {
     return {
       kind: 'system',
       file: packageFile,
@@ -46,6 +41,8 @@ function readManifest(
       components: versionMatch[2],
     };
   }
+
+  logger.debug(`${packageFile} doesn't appear to have Flux component headers, trying to extract resources instead.`)
 
   const manifest: FluxManifest = {
     kind: 'resource',

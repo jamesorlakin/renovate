@@ -1,8 +1,4 @@
-import { regEx } from '../../../util/regex';
-
-export const systemManifestRegex =
+export const systemManifestFileRegex =
   '(^|/)flux-system/(?:.+/)?gotk-components\\.ya?ml$';
 
-export function isSystemManifest(file: string): boolean {
-  return regEx(systemManifestRegex).test(file);
-}
+export const systemManifestHeaderRegex = '#\\s*Flux\\s+Version:\\s*(\\S+)(?:\\s*#\\s*Components:\\s*([A-Za-z,-]+))?'

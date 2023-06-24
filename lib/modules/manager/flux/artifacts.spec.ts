@@ -85,17 +85,6 @@ describe('modules/manager/flux/artifacts', () => {
     ]);
   });
 
-  it('ignores non-system manifests', async () => {
-    const res = await updateArtifacts({
-      packageFileName: 'not-a-system-manifest.yaml',
-      updatedDeps: [{ newVersion: '1.0.1' }],
-      newPackageFileContent: '',
-      config: {},
-    });
-
-    expect(res).toBeNull();
-  });
-
   it('ignores unchanged system manifests', async () => {
     const execSnapshots = mockExecAll({ stdout: '', stderr: '' });
     fs.readLocalFile.mockResolvedValueOnce('old');
