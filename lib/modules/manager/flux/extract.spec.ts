@@ -57,7 +57,9 @@ describe('modules/manager/flux/extract', () => {
     it('extracts version and components from system manifests', () => {
       const result = extractPackageFile(
         Fixtures.get('flux-system/gotk-components.yaml'),
-        'clusters/my-cluster/flux-system/gotk-components.yaml'
+        // Convention is flux-system/gotk-components.yaml.
+        // The path nor the name should matter, we use headers within the file.
+        'clusters/my-cluster/gotk-components.yaml'
       );
       expect(result).toEqual({
         deps: [
